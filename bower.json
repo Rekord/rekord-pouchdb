@@ -1,0 +1,29 @@
+{
+  "name": "neurosync-pouchdb",
+  "version": "1.0.0",
+  "homepage": "https://github.com/ClickerMonkey/neurosync-pouchdb",
+  "authors": [
+    "Philip Diffenderfer <pdiffenderfer@gmail.com>"
+  ],
+  "description": "A neurosync binding to pouchdb - implementing Neuro.rest, Neuro.live, & Neuro.store",
+  "main": "build/neurosync-pouchdb.js",
+  "keywords": [
+    "javascript",
+    "orm",
+    "offline",
+    "realtime",
+    "neurosync",
+    "pouchdb"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "pouchdb": "~5.1.0"
+  }
+}
