@@ -1,12 +1,12 @@
 {
-  "name": "neurosync-pouchdb",
+  "name": "rekord-pouchdb",
   "version": "0.2.0",
-  "description": "A neurosync binding to pouchdb - implementing Neuro.rest, Neuro.live, & Neuro.store",
+  "description": "A rekord binding to pouchdb - implementing Rekord.rest, Rekord.live, & Rekord.store",
   "author": "Philip Diffenderfer",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/ClickerMonkey/neurosync-pouchdb.git"
+    "url": "git://github.com/Rekord/rekord-pouchdb.git"
   },
   "devDependencies": {
     "gulp": "^3.8.10",

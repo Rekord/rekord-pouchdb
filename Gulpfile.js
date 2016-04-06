@@ -7,11 +7,11 @@ var gutil = require('gulp-util');
 var shell = require('gulp-shell');
 
 var build = {
-  filename: 'neurosync-pouchdb.js',
-  minified: 'neurosync-pouchdb.min.js',
+  filename: 'rekord-pouchdb.js',
+  minified: 'rekord-pouchdb.min.js',
   output: './build/',
   include: [
-    './src/neurosync-pouchdb.js'
+    './src/rekord-pouchdb.js'
   ]
 };
 

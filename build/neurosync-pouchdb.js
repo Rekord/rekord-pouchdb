@@ -1,62 +1,62 @@
-(function(PouchDB, Neuro, global, undefined)
+(function(PouchDB, Rekord, global, undefined)
 {
 
-  Neuro.Debugs.POUCH_INIT = 2000;
-  Neuro.Debugs.POUCH_ALL = 2001;
-  Neuro.Debugs.POUCH_ALL_ERROR = 2002;
-  Neuro.Debugs.POUCH_GET = 2003;
-  Neuro.Debugs.POUCH_GET_ERROR = 2004;
-  Neuro.Debugs.POUCH_CREATE = 2005;
-  Neuro.Debugs.POUCH_CREATE_ERROR = 2006;
-  Neuro.Debugs.POUCH_UPDATE = 2007;
-  Neuro.Debugs.POUCH_UPDATE_ERROR = 2008;
-  Neuro.Debugs.POUCH_REMOVE = 2009;
-  Neuro.Debugs.POUCH_REMOVE_ERROR = 2010;
-  Neuro.Debugs.POUCH_LIVE_REMOVE = 2011;
-  Neuro.Debugs.POUCH_LIVE_SAVE = 2012;
-  Neuro.Debugs.POUCH_LIVE_SAVE_IGNORE = 2013;
+  Rekord.Debugs.POUCH_INIT = 2000;
+  Rekord.Debugs.POUCH_ALL = 2001;
+  Rekord.Debugs.POUCH_ALL_ERROR = 2002;
+  Rekord.Debugs.POUCH_GET = 2003;
+  Rekord.Debugs.POUCH_GET_ERROR = 2004;
+  Rekord.Debugs.POUCH_CREATE = 2005;
+  Rekord.Debugs.POUCH_CREATE_ERROR = 2006;
+  Rekord.Debugs.POUCH_UPDATE = 2007;
+  Rekord.Debugs.POUCH_UPDATE_ERROR = 2008;
+  Rekord.Debugs.POUCH_REMOVE = 2009;
+  Rekord.Debugs.POUCH_REMOVE_ERROR = 2010;
+  Rekord.Debugs.POUCH_LIVE_REMOVE = 2011;
+  Rekord.Debugs.POUCH_LIVE_SAVE = 2012;
+  Rekord.Debugs.POUCH_LIVE_SAVE_IGNORE = 2013;
 
-  if ( Neuro.debugMap )
+  if ( Rekord.debugMap )
   {
-    Neuro.debugMap[ Neuro.Debugs.POUCH_INIT ] = 'PouchDB Initialized';
-    Neuro.debugMap[ Neuro.Debugs.POUCH_ALL ] = 'PouchDB All';
-    Neuro.debugMap[ Neuro.Debugs.POUCH_ALL_ERROR ] = 'PouchDB All Error';
-    Neuro.debugMap[ Neuro.Debugs.POUCH_GET ] = 'PouchDB Get';
-    Neuro.debugMap[ Neuro.Debugs.POUCH_GET_ERROR ] = 'PouchDB Get Error';
-    Neuro.debugMap[ Neuro.Debugs.POUCH_CREATE ] = 'PouchDB Create';
-    Neuro.debugMap[ Neuro.Debugs.POUCH_CREATE_ERROR ] = 'PouchDB Create Error';
-    Neuro.debugMap[ Neuro.Debugs.POUCH_UPDATE ] = 'PouchDB Update';
-    Neuro.debugMap[ Neuro.Debugs.POUCH_UPDATE_ERROR ] = 'PouchDB Update Error';
-    Neuro.debugMap[ Neuro.Debugs.POUCH_REMOVE ] = 'PouchDB Remove';
-    Neuro.debugMap[ Neuro.Debugs.POUCH_REMOVE_ERROR ] = 'PouchDB Remove Error';
-    Neuro.debugMap[ Neuro.Debugs.POUCH_LIVE_REMOVE ] = 'PouchDB Live Remove';
-    Neuro.debugMap[ Neuro.Debugs.POUCH_LIVE_SAVE ] = 'PouchDB Live Save';
-    Neuro.debugMap[ Neuro.Debugs.POUCH_LIVE_SAVE_IGNORE ] = 'PouchDB Live Save Ignored';
+    Rekord.debugMap[ Rekord.Debugs.POUCH_INIT ] = 'PouchDB Initialized';
+    Rekord.debugMap[ Rekord.Debugs.POUCH_ALL ] = 'PouchDB All';
+    Rekord.debugMap[ Rekord.Debugs.POUCH_ALL_ERROR ] = 'PouchDB All Error';
+    Rekord.debugMap[ Rekord.Debugs.POUCH_GET ] = 'PouchDB Get';
+    Rekord.debugMap[ Rekord.Debugs.POUCH_GET_ERROR ] = 'PouchDB Get Error';
+    Rekord.debugMap[ Rekord.Debugs.POUCH_CREATE ] = 'PouchDB Create';
+    Rekord.debugMap[ Rekord.Debugs.POUCH_CREATE_ERROR ] = 'PouchDB Create Error';
+    Rekord.debugMap[ Rekord.Debugs.POUCH_UPDATE ] = 'PouchDB Update';
+    Rekord.debugMap[ Rekord.Debugs.POUCH_UPDATE_ERROR ] = 'PouchDB Update Error';
+    Rekord.debugMap[ Rekord.Debugs.POUCH_REMOVE ] = 'PouchDB Remove';
+    Rekord.debugMap[ Rekord.Debugs.POUCH_REMOVE_ERROR ] = 'PouchDB Remove Error';
+    Rekord.debugMap[ Rekord.Debugs.POUCH_LIVE_REMOVE ] = 'PouchDB Live Remove';
+    Rekord.debugMap[ Rekord.Debugs.POUCH_LIVE_SAVE ] = 'PouchDB Live Save';
+    Rekord.debugMap[ Rekord.Debugs.POUCH_LIVE_SAVE_IGNORE ] = 'PouchDB Live Save Ignored';
   }
 
   var cache = {};
 
-  var Neuro_live = Neuro.live;
-  var Neuro_rest = Neuro.rest;
-  var Neuro_store = Neuro.store;
+  var Rekord_live = Rekord.live;
+  var Rekord_rest = Rekord.rest;
+  var Rekord_store = Rekord.store;
 
-  Neuro.pouch = function(name, options)
+  Rekord.pouch = function(name, options)
   {
     return name in cache ? cache[ name ] : cache[ name ] = new PouchDB( name, options );
   };
 
-  if ( !Neuro.restSet )
+  if ( !Rekord.restSet )
   {
-    Neuro.rest = function(database)
+    Rekord.rest = function(database)
     {
       if ( !database.api )
       {
-        return Neuro_rest.call( this, database );
+        return Rekord_rest.call( this, database );
       }
 
       database.fullSave = true;
-      database.cache = Neuro.Cache.None;
-      database.origin = Neuro.uuid();
+      database.cache = Rekord.Cache.None;
+      database.origin = Rekord.uuid();
 
       var pouch = this.pouch( database.name, database.storeOptions );
 
@@ -69,7 +69,7 @@
         retry: true
       });
 
-      Neuro.debug( Neuro.Debugs.POUCH_INIT, database, pouch );
+      Rekord.debug( Rekord.Debugs.POUCH_INIT, database, pouch );
 
       return {
 
@@ -79,7 +79,7 @@
         {
           function onAll(response)
           {
-            Neuro.debug( Neuro.Debugs.POUCH_ALL, database, response );
+            Rekord.debug( Rekord.Debugs.POUCH_ALL, database, response );
 
             var values = [];
             for (var i = 0; i < response.rows.length; i++) 
@@ -92,7 +92,7 @@
 
           function onAllError(err)
           {
-            Neuro.debug( Neuro.Debugs.POUCH_ALL_ERROR, database, err );
+            Rekord.debug( Rekord.Debugs.POUCH_ALL_ERROR, database, err );
             
             failure( [], err.status );
           }
@@ -106,7 +106,7 @@
 
           function onGet(response)
           {
-            Neuro.debug( Neuro.Debugs.POUCH_GET, database, model, key, response );
+            Rekord.debug( Rekord.Debugs.POUCH_GET, database, model, key, response );
 
             model._rev = response._rev;
             success( response );
@@ -114,7 +114,7 @@
 
           function onGetError(err)
           {
-            Neuro.debug( Neuro.Debugs.POUCH_GET_ERROR, database, model, key, err );
+            Rekord.debug( Rekord.Debugs.POUCH_GET_ERROR, database, model, key, err );
 
             failure( null, err.status );
           }
@@ -129,7 +129,7 @@
 
           function onCreate(response)
           {
-            Neuro.debug( Neuro.Debugs.POUCH_CREATE, database, model, encoded, response );
+            Rekord.debug( Rekord.Debugs.POUCH_CREATE, database, model, encoded, response );
 
             if ( response.ok ) 
             {
@@ -145,7 +145,7 @@
 
           function onCreateError(err)
           {
-            Neuro.debug( Neuro.Debugs.POUCH_CREATE_ERROR, database, model, encoded, err );
+            Rekord.debug( Rekord.Debugs.POUCH_CREATE_ERROR, database, model, encoded, err );
 
             failure( null, err.status );
           }
@@ -161,7 +161,7 @@
 
           function onUpdate(response)
           {
-            Neuro.debug( Neuro.Debugs.POUCH_UPDATE, database, model, encoded, response );
+            Rekord.debug( Rekord.Debugs.POUCH_UPDATE, database, model, encoded, response );
 
             if ( response.ok ) 
             {
@@ -177,7 +177,7 @@
 
           function onUpdateError(err)
           {
-            Neuro.debug( Neuro.Debugs.POUCH_UPDATE_ERROR, database, model, encoded, err );
+            Rekord.debug( Rekord.Debugs.POUCH_UPDATE_ERROR, database, model, encoded, err );
 
             failure( null, err.status );
           }
@@ -191,7 +191,7 @@
 
           function onRemove(response)
           {
-            Neuro.debug( Neuro.Debugs.POUCH_REMOVE, database, model, key, response );
+            Rekord.debug( Rekord.Debugs.POUCH_REMOVE, database, model, key, response );
 
             if ( response.ok ) 
             {
@@ -205,7 +205,7 @@
 
           function onRemoveError(err)
           {
-            Neuro.debug( Neuro.Debugs.POUCH_REMOVE_ERROR, database, model, key, err );
+            Rekord.debug( Rekord.Debugs.POUCH_REMOVE_ERROR, database, model, key, err );
 
             failure( {}, err.status );
           }
@@ -221,16 +221,16 @@
       };
     };
 
-    Neuro.restSet = true;
+    Rekord.restSet = true;
   }
 
-  if ( !Neuro.liveSet )
+  if ( !Rekord.liveSet )
   {
-    Neuro.live = function(database)
+    Rekord.live = function(database)
     {
       if ( !database.api )
       {
-        return Neuro_live.call( this, database );
+        return Rekord_live.call( this, database );
       }
 
       var pouch = this.pouch( database.name );
@@ -245,7 +245,7 @@
       {
         if ( change.deleted ) 
         {
-          Neuro.debug( Neuro.Debugs.POUCH_LIVE_REMOVE, database, change );
+          Rekord.debug( Rekord.Debugs.POUCH_LIVE_REMOVE, database, change );
 
           database.liveRemove( change.id );
         } 
@@ -253,13 +253,13 @@
         {
           if ( change.doc.$origin !== database.origin ) 
           {
-            Neuro.debug( Neuro.Debugs.POUCH_LIVE_SAVE, database, change );
+            Rekord.debug( Rekord.Debugs.POUCH_LIVE_SAVE, database, change );
 
             database.liveSave( change.id, change.doc );
           } 
           else 
           {
-            Neuro.debug( Neuro.Debugs.POUCH_LIVE_SAVE_IGNORE, database, change );
+            Rekord.debug( Rekord.Debugs.POUCH_LIVE_SAVE_IGNORE, database, change );
           }
         }
       }
@@ -268,12 +268,12 @@
 
       return {
         pouchdb: pouch,
-        save: Neuro.noop,
-        remove: Neuro.noop
+        save: Rekord.noop,
+        remove: Rekord.noop
       };
     };
 
-    Neuro.liveSet = true;
+    Rekord.liveSet = true;
   }
 
-})( PouchDB, Neuro, this );
+})( PouchDB, Rekord, this );

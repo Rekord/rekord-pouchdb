@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Neurosync Tasks Example</title>
+    <title>Rekord Tasks Example</title>
 
     <link rel="stylesheet" href="tasks.css">
 
@@ -44,10 +44,10 @@
     <script src="http://rawgit.com/yaru22/angular-timeago/master/dist/angular-timeago.min.js"></script>
     <script src="../../bower_components/pouchdb/dist/pouchdb.js"></script>
 
-    <script src="http://rawgit.com/ClickerMonkey/neurosync/master/build/neurosync.js"></script>
-    <script src="http://rawgit.com/ClickerMonkey/neurosync-debug/master/build/neurosync-debug.min.js"></script>
-    <script src="../../build/neurosync-pouchdb.js"></script>
-    <script src="http://rawgit.com/ClickerMonkey/neurosync-angular/master/build/neurosync-angular.min.js"></script>
+    <script src="http://rawgit.com/Rekord/rekord/master/build/rekord.js"></script>
+    <script src="http://rawgit.com/Rekord/rekord-debug/master/build/rekord-debug.min.js"></script>
+    <script src="../../build/rekord-pouchdb.js"></script>
+    <script src="http://rawgit.com/Rekord/rekord-angular/master/build/rekord-angular.min.js"></script>
     
     
 
@@ -67,21 +67,21 @@
         };
       };
 
-      angular.module('tasks', ['neurosync', 'yaru22.angular-timeago', 'ngAnimate'])
+      angular.module('tasks', ['rekord', 'yaru22.angular-timeago', 'ngAnimate'])
 
-        .config(function($logProvider, NeuroSettings)
+        .config(function($logProvider, RekordSettings)
         {
           $logProvider.debugEnabled( true );
 
-          NeuroSettings.debug = true;
-          Neuro.debugTrace = true;
+          RekordSettings.debug = true;
+          Rekord.debugTrace = true;
         })
 
         .constant('API', 'http://localhost:5984/')
 
         .run(function(API)
         {
-          var Task = Neuro({
+          var Task = Rekord({
             name: 'task',
             api: API + 'task',
             token: 'root',
@@ -105,7 +105,7 @@
             }
           });
 
-          var TaskList = Neuro({
+          var TaskList = Rekord({
             name: 'task_list',
             api: API + 'task_list',
             fields: ['name'],
@@ -126,7 +126,7 @@
           window.Task = Task;
           window.TaskList = TaskList;
 
-          Neuro.load();
+          Rekord.load();
         })
 
         .directive('taskList', function()
@@ -139,7 +139,7 @@
             templateUrl: 'taskList.html',
             link: function(scope, element, attrs) 
             {
-              NeuroBind( scope, scope.model );
+              RekordBind( scope, scope.model );
 
               scope.editing = false;
 
@@ -186,7 +186,7 @@
             templateUrl: 'task.html',
             link: function(scope, element, attrs) 
             {
-              NeuroBind( scope, scope.model, updateFinished );
+              RekordBind( scope, scope.model, updateFinished );
 
               scope.editing = false;
               scope.$ = {finished: !!scope.model.finished_at};
@@ -216,16 +216,16 @@
 
         .controller('TaskController', function($scope)
         {
-          NeuroBind( $scope, TaskList );
+          RekordBind( $scope, TaskList );
 
           this.taskLists = TaskList.all();
 
           this.isOnline = function() {
-            return !Neuro.forceOffline;
+            return !Rekord.forceOffline;
           };
           this.setOnline = function(online) {
-            Neuro.forceOffline = !online;
-            Neuro.checkNetworkStatus();
+            Rekord.forceOffline = !online;
+            Rekord.checkNetworkStatus();
           };
 
           this.newTaskList = function() {

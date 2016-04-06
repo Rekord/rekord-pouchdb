@@ -1,18 +1,18 @@
 {
-  "name": "neurosync-pouchdb",
+  "name": "rekord-pouchdb",
   "version": "1.0.0",
-  "homepage": "https://github.com/ClickerMonkey/neurosync-pouchdb",
+  "homepage": "https://github.com/Rekord/rekord-pouchdb",
   "authors": [
     "Philip Diffenderfer <pdiffenderfer@gmail.com>"
   ],
-  "description": "A neurosync binding to pouchdb - implementing Neuro.rest, Neuro.live, & Neuro.store",
-  "main": "build/neurosync-pouchdb.js",
+  "description": "A rekord binding to pouchdb - implementing Rekord.rest, Rekord.live, & Rekord.store",
+  "main": "build/rekord-pouchdb.js",
   "keywords": [
     "javascript",
     "orm",
     "offline",
     "realtime",
-    "neurosync",
+    "rekord",
     "pouchdb"
   ],
   "license": "MIT",

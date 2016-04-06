@@ -1,5 +1,5 @@
-# neurosync-poucbdb
+# rekord-poucbdb
 
-A neurosync binding to poucbdb - implementing Neuro.rest, Neuro.live, & Neuro.store.
+A rekord binding to poucbdb - implementing Rekord.rest, Rekord.live, & Rekord.store.
 
-The easiest way to install is by using bower via `bower install neurosync-poucbdb`.
+The easiest way to install is by using bower via `bower install rekord-poucbdb`.
