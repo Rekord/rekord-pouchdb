@@ -1,38 +1,7 @@
-(function(PouchDB, Rekord, global, undefined)
+(function(global, PouchDB, Rekord, undefined)
 {
 
-  Rekord.Debugs.POUCH_INIT = 2000;
-  Rekord.Debugs.POUCH_ALL = 2001;
-  Rekord.Debugs.POUCH_ALL_ERROR = 2002;
-  Rekord.Debugs.POUCH_GET = 2003;
-  Rekord.Debugs.POUCH_GET_ERROR = 2004;
-  Rekord.Debugs.POUCH_CREATE = 2005;
-  Rekord.Debugs.POUCH_CREATE_ERROR = 2006;
-  Rekord.Debugs.POUCH_UPDATE = 2007;
-  Rekord.Debugs.POUCH_UPDATE_ERROR = 2008;
-  Rekord.Debugs.POUCH_REMOVE = 2009;
-  Rekord.Debugs.POUCH_REMOVE_ERROR = 2010;
-  Rekord.Debugs.POUCH_LIVE_REMOVE = 2011;
-  Rekord.Debugs.POUCH_LIVE_SAVE = 2012;
-  Rekord.Debugs.POUCH_LIVE_SAVE_IGNORE = 2013;
-
-  if ( Rekord.debugMap )
-  {
-    Rekord.debugMap[ Rekord.Debugs.POUCH_INIT ] = 'PouchDB Initialized';
-    Rekord.debugMap[ Rekord.Debugs.POUCH_ALL ] = 'PouchDB All';
-    Rekord.debugMap[ Rekord.Debugs.POUCH_ALL_ERROR ] = 'PouchDB All Error';
-    Rekord.debugMap[ Rekord.Debugs.POUCH_GET ] = 'PouchDB Get';
-    Rekord.debugMap[ Rekord.Debugs.POUCH_GET_ERROR ] = 'PouchDB Get Error';
-    Rekord.debugMap[ Rekord.Debugs.POUCH_CREATE ] = 'PouchDB Create';
-    Rekord.debugMap[ Rekord.Debugs.POUCH_CREATE_ERROR ] = 'PouchDB Create Error';
-    Rekord.debugMap[ Rekord.Debugs.POUCH_UPDATE ] = 'PouchDB Update';
-    Rekord.debugMap[ Rekord.Debugs.POUCH_UPDATE_ERROR ] = 'PouchDB Update Error';
-    Rekord.debugMap[ Rekord.Debugs.POUCH_REMOVE ] = 'PouchDB Remove';
-    Rekord.debugMap[ Rekord.Debugs.POUCH_REMOVE_ERROR ] = 'PouchDB Remove Error';
-    Rekord.debugMap[ Rekord.Debugs.POUCH_LIVE_REMOVE ] = 'PouchDB Live Remove';
-    Rekord.debugMap[ Rekord.Debugs.POUCH_LIVE_SAVE ] = 'PouchDB Live Save';
-    Rekord.debugMap[ Rekord.Debugs.POUCH_LIVE_SAVE_IGNORE ] = 'PouchDB Live Save Ignored';
-  }
+  var Debugs = Rekord.Debugs;
 
   var cache = {};
 
@@ -40,12 +9,45 @@
   var Rekord_rest = Rekord.rest;
   var Rekord_store = Rekord.store;
 
-  Rekord.pouch = function(name, options)
+  Debugs.POUCH_INIT = 2000;
+  Debugs.POUCH_ALL = 2001;
+  Debugs.POUCH_ALL_ERROR = 2002;
+  Debugs.POUCH_GET = 2003;
+  Debugs.POUCH_GET_ERROR = 2004;
+  Debugs.POUCH_CREATE = 2005;
+  Debugs.POUCH_CREATE_ERROR = 2006;
+  Debugs.POUCH_UPDATE = 2007;
+  Debugs.POUCH_UPDATE_ERROR = 2008;
+  Debugs.POUCH_REMOVE = 2009;
+  Debugs.POUCH_REMOVE_ERROR = 2010;
+  Debugs.POUCH_LIVE_REMOVE = 2011;
+  Debugs.POUCH_LIVE_SAVE = 2012;
+  Debugs.POUCH_LIVE_SAVE_IGNORE = 2013;
+
+  if ( Rekord.debugMap )
+  {
+    Rekord.debugMap[ Debugs.POUCH_INIT ] = 'PouchDB Initialized';
+    Rekord.debugMap[ Debugs.POUCH_ALL ] = 'PouchDB All';
+    Rekord.debugMap[ Debugs.POUCH_ALL_ERROR ] = 'PouchDB All Error';
+    Rekord.debugMap[ Debugs.POUCH_GET ] = 'PouchDB Get';
+    Rekord.debugMap[ Debugs.POUCH_GET_ERROR ] = 'PouchDB Get Error';
+    Rekord.debugMap[ Debugs.POUCH_CREATE ] = 'PouchDB Create';
+    Rekord.debugMap[ Debugs.POUCH_CREATE_ERROR ] = 'PouchDB Create Error';
+    Rekord.debugMap[ Debugs.POUCH_UPDATE ] = 'PouchDB Update';
+    Rekord.debugMap[ Debugs.POUCH_UPDATE_ERROR ] = 'PouchDB Update Error';
+    Rekord.debugMap[ Debugs.POUCH_REMOVE ] = 'PouchDB Remove';
+    Rekord.debugMap[ Debugs.POUCH_REMOVE_ERROR ] = 'PouchDB Remove Error';
+    Rekord.debugMap[ Debugs.POUCH_LIVE_REMOVE ] = 'PouchDB Live Remove';
+    Rekord.debugMap[ Debugs.POUCH_LIVE_SAVE ] = 'PouchDB Live Save';
+    Rekord.debugMap[ Debugs.POUCH_LIVE_SAVE_IGNORE ] = 'PouchDB Live Save Ignored';
+  }
+
+  function pouch(name, options)
   {
     return name in cache ? cache[ name ] : cache[ name ] = new PouchDB( name, options );
-  };
+  }
 
-  Rekord.setRest(function(database)
+  function RestFactory(database)
   {
     if ( !database.api )
     {
@@ -67,7 +69,7 @@
       retry: true
     });
 
-    Rekord.debug( Rekord.Debugs.POUCH_INIT, database, pouch );
+    Rekord.debug( Debugs.POUCH_INIT, database, pouch );
 
     return {
 
@@ -77,7 +79,7 @@
       {
         function onAll(response)
         {
-          Rekord.debug( Rekord.Debugs.POUCH_ALL, database, response );
+          Rekord.debug( Debugs.POUCH_ALL, database, response );
 
           var values = [];
           for (var i = 0; i < response.rows.length; i++)
@@ -90,7 +92,7 @@
 
         function onAllError(err)
         {
-          Rekord.debug( Rekord.Debugs.POUCH_ALL_ERROR, database, err );
+          Rekord.debug( Debugs.POUCH_ALL_ERROR, database, err );
 
           failure( [], err.status );
         }
@@ -104,7 +106,7 @@
 
         function onGet(response)
         {
-          Rekord.debug( Rekord.Debugs.POUCH_GET, database, model, key, response );
+          Rekord.debug( Debugs.POUCH_GET, database, model, key, response );
 
           model._rev = response._rev;
           success( response );
@@ -112,7 +114,7 @@
 
         function onGetError(err)
         {
-          Rekord.debug( Rekord.Debugs.POUCH_GET_ERROR, database, model, key, err );
+          Rekord.debug( Debugs.POUCH_GET_ERROR, database, model, key, err );
 
           failure( null, err.status );
         }
@@ -127,7 +129,7 @@
 
         function onCreate(response)
         {
-          Rekord.debug( Rekord.Debugs.POUCH_CREATE, database, model, encoded, response );
+          Rekord.debug( Debugs.POUCH_CREATE, database, model, encoded, response );
 
           if ( response.ok )
           {
@@ -143,7 +145,7 @@
 
         function onCreateError(err)
         {
-          Rekord.debug( Rekord.Debugs.POUCH_CREATE_ERROR, database, model, encoded, err );
+          Rekord.debug( Debugs.POUCH_CREATE_ERROR, database, model, encoded, err );
 
           failure( null, err.status );
         }
@@ -159,7 +161,7 @@
 
         function onUpdate(response)
         {
-          Rekord.debug( Rekord.Debugs.POUCH_UPDATE, database, model, encoded, response );
+          Rekord.debug( Debugs.POUCH_UPDATE, database, model, encoded, response );
 
           if ( response.ok )
           {
@@ -175,7 +177,7 @@
 
         function onUpdateError(err)
         {
-          Rekord.debug( Rekord.Debugs.POUCH_UPDATE_ERROR, database, model, encoded, err );
+          Rekord.debug( Debugs.POUCH_UPDATE_ERROR, database, model, encoded, err );
 
           failure( null, err.status );
         }
@@ -189,7 +191,7 @@
 
         function onRemove(response)
         {
-          Rekord.debug( Rekord.Debugs.POUCH_REMOVE, database, model, key, response );
+          Rekord.debug( Debugs.POUCH_REMOVE, database, model, key, response );
 
           if ( response.ok )
           {
@@ -203,7 +205,7 @@
 
         function onRemoveError(err)
         {
-          Rekord.debug( Rekord.Debugs.POUCH_REMOVE_ERROR, database, model, key, err );
+          Rekord.debug( Debugs.POUCH_REMOVE_ERROR, database, model, key, err );
 
           failure( {}, err.status );
         }
@@ -217,10 +219,9 @@
       }
 
     };
-  });
+  }
 
-
-  Rekord.setLive(function(database)
+  function LiveFactory(database)
   {
     if ( !database.api )
     {
@@ -239,7 +240,7 @@
     {
       if ( change.deleted )
       {
-        Rekord.debug( Rekord.Debugs.POUCH_LIVE_REMOVE, database, change );
+        Rekord.debug( Debugs.POUCH_LIVE_REMOVE, database, change );
 
         database.liveRemove( change.id );
       }
@@ -247,13 +248,13 @@
       {
         if ( change.doc.$origin !== database.origin )
         {
-          Rekord.debug( Rekord.Debugs.POUCH_LIVE_SAVE, database, change );
+          Rekord.debug( Debugs.POUCH_LIVE_SAVE, database, change );
 
           database.liveSave( change.id, change.doc );
         }
         else
         {
-          Rekord.debug( Rekord.Debugs.POUCH_LIVE_SAVE_IGNORE, database, change );
+          Rekord.debug( Debugs.POUCH_LIVE_SAVE_IGNORE, database, change );
         }
       }
     }
@@ -265,6 +266,10 @@
       save: Rekord.noop,
       remove: Rekord.noop
     };
-  });
+  }
 
-})( PouchDB, Rekord, this );
+  Rekord.pouch = pouch;
+  Rekord.setRest( RestFactory );
+  Rekord.setLive( LiveFactory );
+
+})( this, this.PouchDB, this.Rekord );
