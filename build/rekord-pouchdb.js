@@ -1,3 +1,4 @@
+/* rekord-pouchdb 1.4.0 - A rekord binding to pouchdb - implementing Rekord.rest, Rekord.live, & Rekord.store by Philip Diffenderfer */
 (function(global, PouchDB, Rekord, undefined)
 {
 
