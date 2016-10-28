@@ -1,9 +1,10 @@
 {
   "name": "rekord-pouchdb",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "A rekord binding to pouchdb - implementing Rekord.rest, Rekord.live, & Rekord.store",
   "author": "Philip Diffenderfer",
   "license": "MIT",
+  "main": "build/rekord-pouchdb.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/Rekord/rekord-pouchdb.git"
