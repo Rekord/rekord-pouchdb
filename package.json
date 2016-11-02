@@ -1,6 +1,6 @@
 {
   "name": "rekord-pouchdb",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "A rekord binding to pouchdb - implementing Rekord.rest, Rekord.live, & Rekord.store",
   "author": "Philip Diffenderfer",
   "license": "MIT",
