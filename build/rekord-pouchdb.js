@@ -1,4 +1,4 @@
-/* rekord-pouchdb 1.4.3 - A rekord binding to pouchdb - implementing Rekord.rest, Rekord.live, & Rekord.store by Philip Diffenderfer */
+/* rekord-pouchdb 1.5.0 - A rekord binding to pouchdb - implementing Rekord.rest, Rekord.live, & Rekord.store by Philip Diffenderfer */
 // UMD (Universal Module Definition)
 (function (root, factory)
 {
@@ -31,6 +31,10 @@
   var Rekord_live = Rekord.live;
   var Rekord_rest = Rekord.rest;
   var Rekord_store = Rekord.store;
+
+  var transfer = Rekord.transfer;
+  var copy = Rekord.copy;
+  var isObject = Rekord.isObject;
 
   Debugs.POUCH_INIT = 2000;
   Debugs.POUCH_ALL = 2001;
@@ -98,7 +102,7 @@
 
       pouchdb: pouch,
 
-      all: function( success, failure )
+      all: function( extraOptions, success, failure )
       {
         function onAll(response)
         {
@@ -120,10 +124,17 @@
           failure( [], err.status );
         }
 
-        pouch.allDocs( options ).then( onAll ).catch( onAllError );
+        var allOptions = options;
+
+        if ( isObject( extraOptions ) )
+        {
+          allOptions = transfer( extraOptions, copy( allOptions ) );
+        }
+
+        pouch.allDocs( allOptions ).then( onAll ).catch( onAllError );
       },
 
-      get: function( model, success, failure )
+      get: function( model, extraOptions, success, failure )
       {
         var key = String( model.$key() );
 
@@ -145,7 +156,7 @@
         pouch.get( key ).then( onGet ).catch( onGetError );
       },
 
-      create: function( model, encoded, success, failure )
+      create: function( model, encoded, extraOptions, success, failure )
       {
         encoded._id = String( model.$key() );
         encoded.$origin = database.origin;
@@ -176,7 +187,7 @@
         pouch.put( encoded ).then( onCreate ).catch( onCreateError );
       },
 
-      update: function( model, encoded, success, failure )
+      update: function( model, encoded, extraOptions, success, failure )
       {
         encoded._id = String( model.$key() );
         encoded._rev = model._rev;
@@ -208,7 +219,7 @@
         pouch.put( encoded ).then( onUpdate ).catch( onUpdateError );
       },
 
-      remove: function( model, success, failure )
+      remove: function( model, extraOptions, success, failure )
       {
         var key = String( model.$key() );
 
@@ -236,7 +247,7 @@
         pouch.remove( key ).then( onRemove ).catch( onRemoveError );
       },
 
-      query: function( url, query, success, failure )
+      query: function( url, query, extraOptions, success, failure )
       {
         success( [] );
       }
