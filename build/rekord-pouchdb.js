@@ -1,4 +1,4 @@
-/* rekord-pouchdb 1.5.0 - A rekord binding to pouchdb - implementing Rekord.rest, Rekord.live, & Rekord.store by Philip Diffenderfer */
+/* rekord-pouchdb 1.5.6 - A rekord binding to pouchdb - implementing Rekord.rest, Rekord.live, & Rekord.store by Philip Diffenderfer */
 // UMD (Universal Module Definition)
 (function (root, factory)
 {
@@ -303,7 +303,11 @@
   }
 
   Rekord.pouch = pouch;
+
+  Rekord.Rests.Pouch = RestFactory;
   Rekord.setRest( RestFactory );
+
+  Rekord.Lives.Pouch = LiveFactory;
   Rekord.setLive( LiveFactory );
 
   return Rekord;

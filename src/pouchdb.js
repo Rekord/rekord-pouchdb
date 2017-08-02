@@ -302,7 +302,11 @@
   }
 
   Rekord.pouch = pouch;
+
+  Rekord.Rests.Pouch = RestFactory;
   Rekord.setRest( RestFactory );
+
+  Rekord.Lives.Pouch = LiveFactory;
   Rekord.setLive( LiveFactory );
 
   return Rekord;
